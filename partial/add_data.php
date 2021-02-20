@@ -14,6 +14,10 @@
    $file=basename($_FILES["fileToUpload"]["name"]);
    $uploadOk = 1;
    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+   //Creat uniqe name of image
+   $image_new_name=uniqId().".".$imageFileType;
+   $target_file=$target_dir.$image_new_name;
    
    // Check if image file is a actual image or fake image
    if(isset($_POST["submit"])) {
@@ -36,7 +40,7 @@
     
     // if everything is ok, try to upload file
     if($uploadOk==1 && move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)){
-        $data->set_img($file);}
+        $data->set_img($image_new_name);}
     else{   //if everything is not ok or not upload file, The methot of set_img() as female.jpg or male.jpg for gender
             if($data->get_gender()==0){
                 $data->set_img("female.jpg");  
